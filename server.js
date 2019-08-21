@@ -3,4 +3,4 @@ const app= require('./app');
 const port = 3000;
 const server = http.createServer(app);
 
-server.listen(port);
+server.listen(port, () => console.log(`App listening on port ${port}! http://localhost:3000/`));
