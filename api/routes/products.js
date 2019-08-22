@@ -65,9 +65,15 @@ router.patch('/:productId',(req,res,next) => {
 });
 
 router.delete('/:productId',(req,res,next) => {
-    res.status(200).json({
-        message:'Deleted product!'
-    });
+    Product.remove({_id:req.params.productId})
+    .exec()
+    .then(results => {
+        res.status(200).json(results)
+    })
+    .catch(err => {
+        console.log(err);
+        res.status(500).json({error:err});
+    })
 });
 
 module.exports = router;
