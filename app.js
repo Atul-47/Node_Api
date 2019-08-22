@@ -3,22 +3,17 @@ const app = express();
 const morgan = require('morgan');
 const bodyParser = require('body-parser');
 const mongoose  = require('mongoose');
-var MongoClient = require('mongodb').MongoClient;
+// const MongoClient = require('mongodb').MongoClient;
 
 const productRoutes = require('./api/routes/products');
 const orderRoutes = require('./api/routes/orders');
 
 
-const url = "mongodb://localhost:27017/";
+const url = "mongodb://localhost:27017/mydb";
 
-MongoClient.connect(url, function(err, db) {
+mongoose.connect(url, function(err, db) {
   if (err) throw err;
-  var dbo = db.db("mydb");
-  dbo.createCollection("customers", function(err, res) {
-    if (err) throw err;
-    console.log("Collection created!");
-    db.close();
-  });
+  console.log("Collection created!");
 });
 
 app.use(morgan('dev'));
