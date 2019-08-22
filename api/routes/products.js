@@ -5,8 +5,15 @@ const mongoose  = require('mongoose');
 const Product = require('../models/product');
 
 router.get('/',(req,res,next) => {
-    res.status(200).json({
-        message: 'Product Get request'
+    Product.find()
+    .exec()
+    .then(docs => {
+        console.log(docs);
+        res.status(200).json(docs);
+    })
+    .catch(err => {
+        console.log(err);
+        res.status(500).json({error:err});
     });
 });
 
@@ -16,13 +23,21 @@ router.post('/',(req,res,next) => {
         name: req.body.name,
         price: req.body.price
     });
-    product.save().then(result => {
-        console.log(result);
-    }).catch(err => console.log(err));
-    res.status(201).json({
-        message: 'Product Post request',
-        createdProduct: product
-    });
+    product
+        .save()
+        .then(result => {
+            console.log(result);
+            res.status(201).json({
+                message: 'Product Post request',
+                createdProduct: product
+            });
+        })
+        .catch(err => {
+            console.log(err);
+            res.status(500).json({
+                error:err
+            });
+        });
 });
 
 router.get('/:productId',(req,res,next) => {
@@ -31,7 +46,11 @@ router.get('/:productId',(req,res,next) => {
     .exec()
     .then(doc => {
         console.log(doc);
-        res.status(200).json(doc);
+        if (doc){
+            res.status(200).json(doc);
+        } else {
+            res.status(404).json({message:'No Valid Entry'});
+        }
     })
     .catch(err => {
         console.log(err);

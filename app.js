@@ -13,7 +13,7 @@ const url = "mongodb://localhost:27017/mydb";
 
 mongoose.connect(url, function(err, db) {
   if (err) throw err;
-  console.log("Collection created!");
+//   console.log("Collection created!");
 });
 
 app.use(morgan('dev'));
