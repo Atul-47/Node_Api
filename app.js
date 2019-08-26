@@ -1,9 +1,8 @@
 const express = require('express');
 const app = express();
-const morgan = require('morgan');
+// const morgan = require('morgan');
 const bodyParser = require('body-parser');
 const mongoose  = require('mongoose');
-// const MongoClient = require('mongodb').MongoClient;
 
 const productRoutes = require('./api/routes/products');
 const orderRoutes = require('./api/routes/orders');
@@ -11,12 +10,13 @@ const orderRoutes = require('./api/routes/orders');
 
 const url = "mongodb://localhost:27017/mydb";
 
-mongoose.connect(url, function(err, db) {
+mongoose.connect(url, { useNewUrlParser: true }, function(err, db) {
   if (err) throw err;
 //   console.log("Collection created!");
 });
 
-app.use(morgan('dev'));
+// Console Response 
+// app.use(morgan('dev'));
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(bodyParser.json());
 
